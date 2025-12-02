@@ -11,6 +11,7 @@ import com.example.studentapi.model.Student;
 import com.example.studentapi.service.StudentService;
 import org.springframework.data.domain.Page;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/students")
 public class StudentController {
