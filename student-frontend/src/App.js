@@ -1,70 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Home from "./pages/Home";
+import Students from "./pages/Students";
+import Dashboard from "./pages/Dashboard";
 
-function App() {
-
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    axios.get("http://localhost:8080/students")
-      .then(response => {
-        setStudents(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error("Error fetching students:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  const [name, setName] = useState("");
-
+export default function App() {
   return (
-    <div style={{ padding: 20, fontFamily: "Arial" }}>
-      <h2>Live Name Preview</h2>
-
-      <label>
-        Enter Your Name:{" "}
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Type Your Name"
-          style={{ padding: 6 }}
-        />
-      </label>
-
-      <h3>Hello {name || "..."} </h3>
-
-      <hr />
-
-      <h2>Student List (From API)</h2>
-
-      {loading ? (
-        <p>Loading students...</p>
-      ) : (
-        <table border="1" cellPadding="8">
-          <thead>
-            <tr>
-              <th>Roll No</th>
-              <th>Name</th>
-              <th>Marks</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {students.map((s) => (
-              <tr key={s.rollNo}>
-                <td>{s.rollNo}</td>
-                <td>{s.name}</td>
-                <td>{s.marks}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div style={{ fontFamily: "Arial" }}>
+      <NavBar />
+      <main style={{ padding: 20, maxWidth: 1100, margin: "0 auto" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </main>
     </div>
   );
 }
-
-export default App;
